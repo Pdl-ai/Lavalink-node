@@ -1,0 +1,6 @@
+logs/
+plugins/
+notes/
+.env
+.env.legacy
+Lavalink.jar

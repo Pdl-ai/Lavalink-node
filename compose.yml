@@ -1,0 +1,64 @@
+services:
+  youtube-cipher:
+    image: ghcr.io/kikkia/yt-cipher:master
+    container_name: youtube-cipher
+    restart: unless-stopped
+    environment:
+      - API_TOKEN=${PLUGINS_YOUTUBE_REMOTE_CIPHER_PASSWORD:-${LAVALINK_SERVER_PASSWORD}}
+      - PORT=8001
+      - OVERRIDE_SCRIPT_VARIANT=IAS
+    networks:
+      - lavalink
+
+  lavalink:
+    image: ghcr.io/lavalink-devs/lavalink:4.2.2
+    container_name: lavalink
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - _JAVA_OPTIONS=-Xmx4G -Xms2G -XX:+UseG1GC -XX:MaxGCPauseMillis=50
+    volumes:
+      - ./application.yml:/opt/Lavalink/application.yml:ro
+      - ./plugins:/opt/Lavalink/plugins
+      - ./logs:/opt/Lavalink/logs
+    ports:
+      - "2333:2333"
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - lavalink
+    depends_on:
+      - youtube-cipher
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: unless-stopped
+    environment:
+      - DOMAIN=${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - lavalink
+    depends_on:
+      - lavalink
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  lavalink:
+    name: lavalink
+    driver: bridge

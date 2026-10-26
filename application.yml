@@ -1,0 +1,157 @@
+server:
+  port: ${SERVER_PORT:2333}
+  address: ${SERVER_ADDRESS:0.0.0.0}
+  http2:
+    enabled: ${SERVER_HTTP2_ENABLED:true}
+
+plugins:
+  youtube:
+    enabled: ${PLUGINS_YOUTUBE_ENABLED:true}
+    allowSearch: ${PLUGINS_YOUTUBE_ALLOW_SEARCH:true}
+    allowDirectVideoIds: ${PLUGINS_YOUTUBE_ALLOW_DIRECT_VIDEO_IDS:true}
+    allowDirectPlaylistIds: ${PLUGINS_YOUTUBE_ALLOW_DIRECT_PLAYLIST_IDS:true}
+
+    remoteCipher:
+      url: ${PLUGINS_YOUTUBE_REMOTE_CIPHER_URL:http://youtube-cipher:8001}
+      password: ${PLUGINS_YOUTUBE_REMOTE_CIPHER_PASSWORD:${LAVALINK_SERVER_PASSWORD}}
+      userAgent: ${PLUGINS_YOUTUBE_REMOTE_CIPHER_USER_AGENT:lavalink-server}
+
+    oauth:
+      enabled: ${PLUGINS_YOUTUBE_OAUTH_ENABLED:false}
+      refreshToken: ${PLUGINS_YOUTUBE_OAUTH_REFRESH_TOKEN:}
+      skipInitialization: ${PLUGINS_YOUTUBE_OAUTH_SKIP_INITIALIZATION:false}
+
+    pot:
+      token: ${PLUGINS_YOUTUBE_POT_TOKEN:}
+      visitorData: ${PLUGINS_YOUTUBE_POT_VISITOR_DATA:}
+
+    clients:
+      - MUSIC
+      - ANDROID_VR
+      - TVHTML5EMBEDDED
+      - ANDROID_MUSIC
+      - IOS
+      - WEB
+      - WEBEMBEDDED
+      - MWEB
+      - TV
+
+    clientOptions:
+      MUSIC:
+        playback: false
+        playlistLoading: false
+        videoLoading: false
+        searching: true
+      WEB:
+        playback: true
+        playlistLoading: true
+        videoLoading: true
+        searching: true
+      WEBEMBEDDED:
+        playback: true
+        playlistLoading: false
+        videoLoading: true
+        searching: false
+      TV:
+        playback: true
+        playlistLoading: false
+        videoLoading: true
+        searching: false
+
+lavalink:
+  plugins:
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.18.2"
+      repository: "https://maven.lavalink.dev/releases"
+      snapshot: false
+  pluginsDir: ${LAVALINK_PLUGINS_DIR:./plugins}
+  defaultPluginRepository: ${LAVALINK_DEFAULT_PLUGIN_REPOSITORY:https://maven.lavalink.dev/releases}
+  defaultPluginSnapshotRepository: ${LAVALINK_DEFAULT_PLUGIN_SNAPSHOT_REPOSITORY:https://maven.lavalink.dev/snapshots}
+
+  server:
+    password: ${LAVALINK_SERVER_PASSWORD}
+    sources:
+      youtube: false
+      bandcamp: ${LAVALINK_SERVER_SOURCES_BANDCAMP:true}
+      soundcloud: ${LAVALINK_SERVER_SOURCES_SOUNDCLOUD:true}
+      twitch: ${LAVALINK_SERVER_SOURCES_TWITCH:true}
+      vimeo: ${LAVALINK_SERVER_SOURCES_VIMEO:true}
+      nico: ${LAVALINK_SERVER_SOURCES_NICO:false}
+      http: ${LAVALINK_SERVER_SOURCES_HTTP:true}
+      local: ${LAVALINK_SERVER_SOURCES_LOCAL:false}
+    filters:
+      volume: ${LAVALINK_SERVER_FILTERS_VOLUME:true}
+      equalizer: ${LAVALINK_SERVER_FILTERS_EQUALIZER:true}
+      karaoke: ${LAVALINK_SERVER_FILTERS_KARAOKE:true}
+      timescale: ${LAVALINK_SERVER_FILTERS_TIMESCALE:true}
+      tremolo: ${LAVALINK_SERVER_FILTERS_TREMOLO:true}
+      vibrato: ${LAVALINK_SERVER_FILTERS_VIBRATO:true}
+      distortion: ${LAVALINK_SERVER_FILTERS_DISTORTION:true}
+      rotation: ${LAVALINK_SERVER_FILTERS_ROTATION:true}
+      channelMix: ${LAVALINK_SERVER_FILTERS_CHANNEL_MIX:true}
+      lowPass: ${LAVALINK_SERVER_FILTERS_LOW_PASS:true}
+
+    nonAllocatingFrameBuffer: ${LAVALINK_SERVER_NON_ALLOCATING_FRAME_BUFFER:false}
+    bufferDurationMs: ${LAVALINK_SERVER_BUFFER_DURATION_MS:400}
+    frameBufferDurationMs: ${LAVALINK_SERVER_FRAME_BUFFER_DURATION_MS:5000}
+    opusEncodingQuality: ${LAVALINK_SERVER_OPUS_ENCODING_QUALITY:10}
+    resamplingQuality: ${LAVALINK_SERVER_RESAMPLING_QUALITY:HIGH}
+    trackStuckThresholdMs: ${LAVALINK_SERVER_TRACK_STUCK_THRESHOLD_MS:10000}
+    useSeekGhosting: ${LAVALINK_SERVER_USE_SEEK_GHOSTING:true}
+    youtubePlaylistLoadLimit: ${LAVALINK_SERVER_YOUTUBE_PLAYLIST_LOAD_LIMIT:6}
+    playerUpdateInterval: ${LAVALINK_SERVER_PLAYER_UPDATE_INTERVAL:5}
+    youtubeSearchEnabled: ${LAVALINK_SERVER_YOUTUBE_SEARCH_ENABLED:true}
+    soundcloudSearchEnabled: ${LAVALINK_SERVER_SOUNDCLOUD_SEARCH_ENABLED:true}
+    soundcloudFilterOutPreviewTracks: ${LAVALINK_SERVER_SOUNDCLOUD_FILTER_OUT_PREVIEW_TRACKS:true}
+    gc-warnings: ${LAVALINK_SERVER_GC_WARNINGS:true}
+
+    # IPv6 rotation configuration for rate limit mitigation
+    #ratelimit:
+      #ipBlocks: ["1.0.0.0/8"]
+      #excludedIps: []
+      #strategy: "RotateOnBan"
+      #searchTriggersFail: true
+      #retryLimit: -1
+
+    # Outbound HTTP proxy configuration for direct HTTP source protection
+    #httpConfig:
+      #proxyHost: "localhost"
+      #proxyPort: 3128
+      #proxyUser: ""
+      #proxyPassword: ""
+
+    timeouts:
+      connectTimeoutMs: ${LAVALINK_SERVER_TIMEOUTS_CONNECT_TIMEOUT_MS:3000}
+      connectionRequestTimeoutMs: ${LAVALINK_SERVER_TIMEOUTS_CONNECTION_REQUEST_TIMEOUT_MS:3000}
+      socketTimeoutMs: ${LAVALINK_SERVER_TIMEOUTS_SOCKET_TIMEOUT_MS:3000}
+
+metrics:
+  prometheus:
+    enabled: ${METRICS_PROMETHEUS_ENABLED:false}
+    endpoint: ${METRICS_PROMETHEUS_ENDPOINT:/metrics}
+
+sentry:
+  dsn: ${SENTRY_DSN:}
+  environment: ${SENTRY_ENVIRONMENT:}
+
+logging:
+  file:
+    path: ${LOGGING_FILE_PATH:./logs/}
+
+  level:
+    root: ${LOGGING_LEVEL_ROOT:INFO}
+    lavalink: ${LOGGING_LEVEL_LAVALINK:INFO}
+    dev.lavalink.youtube: ${LOGGING_LEVEL_YOUTUBE:INFO}
+
+  request:
+    enabled: ${LOGGING_REQUEST_ENABLED:true}
+    includeClientInfo: ${LOGGING_REQUEST_INCLUDE_CLIENT_INFO:true}
+    includeHeaders: ${LOGGING_REQUEST_INCLUDE_HEADERS:false}
+    includeQueryString: ${LOGGING_REQUEST_INCLUDE_QUERY_STRING:true}
+    includePayload: ${LOGGING_REQUEST_INCLUDE_PAYLOAD:true}
+    maxPayloadLength: ${LOGGING_REQUEST_MAX_PAYLOAD_LENGTH:10000}
+    beforeRequest: ${LOGGING_REQUEST_BEFORE_REQUEST:false}
+
+  logback:
+    rollingpolicy:
+      max-file-size: ${LOGGING_LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE:1GB}
+      max-history: ${LOGGING_LOGBACK_ROLLINGPOLICY_MAX_HISTORY:30}
