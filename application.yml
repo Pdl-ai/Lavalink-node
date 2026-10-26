@@ -27,6 +27,8 @@ plugins:
 
     clients:
       - MUSIC
+      - ANDROID_TESTSUITE
+      - TVHTML5_SIMPLY
       - ANDROID_VR
       - ANDROID_MUSIC
       - IOS
@@ -37,6 +39,16 @@ plugins:
 
     clientOptions:
       MUSIC:
+        playback: true
+        playlistLoading: true
+        videoLoading: true
+        searching: true
+      ANDROID_TESTSUITE:
+        playback: true
+        playlistLoading: true
+        videoLoading: true
+        searching: true
+      TVHTML5_SIMPLY:
         playback: true
         playlistLoading: true
         videoLoading: true
