@@ -28,7 +28,6 @@ plugins:
     clients:
       - MUSIC
       - ANDROID_VR
-      - TVHTML5EMBEDDED
       - ANDROID_MUSIC
       - IOS
       - WEB
@@ -141,6 +140,7 @@ logging:
     root: ${LOGGING_LEVEL_ROOT:INFO}
     lavalink: ${LOGGING_LEVEL_LAVALINK:INFO}
     dev.lavalink.youtube: ${LOGGING_LEVEL_YOUTUBE:INFO}
+    dev.lavalink.youtube.http.YoutubeOauth2Handler: INFO
 
   request:
     enabled: ${LOGGING_REQUEST_ENABLED:true}
