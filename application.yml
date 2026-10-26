@@ -37,9 +37,9 @@ plugins:
 
     clientOptions:
       MUSIC:
-        playback: false
-        playlistLoading: false
-        videoLoading: false
+        playback: true
+        playlistLoading: true
+        videoLoading: true
         searching: true
       WEB:
         playback: true
